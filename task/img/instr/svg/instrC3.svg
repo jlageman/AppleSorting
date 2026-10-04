@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="370.43555mm"
+   height="207.97597mm"
+   viewBox="0 0 370.43554 207.97596"
+   version="1.1"
+   id="svg8"
+   inkscape:export-filename="C:\Users\Jet\surfdrive - Lageman, J. (Jet)@surfdrive.surf.nl\PhD\PerceptionActionTask\task_version3\img\instr\instrC2.png"
+   inkscape:export-xdpi="100"
+   inkscape:export-ydpi="100"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="instrC3.svg">
+  <defs
+     id="defs2">
+    <rect
+       x="193.91784"
+       y="74.9754"
+       width="185.7375"
+       height="58.208333"
+       id="rect1109" />
+    <rect
+       x="104.75325"
+       y="-16.041266"
+       width="5.8208333"
+       height="16.933333"
+       id="rect1103" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="824.48803"
+     inkscape:cy="357.65082"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="2400"
+     inkscape:window-height="1261"
+     inkscape:window-x="2391"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Laag 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(70.665497,8.1037664)">
+    <rect
+       style="fill:#000000;fill-opacity:0;stroke-width:7.99999;stroke-linecap:square;paint-order:stroke fill markers"
+       id="rect924"
+       width="294.74582"
+       height="131.23334"
+       x="-32.820633"
+       y="-8.1037645" />
+    <text
+       xml:space="preserve"
+       style="font-size:11.2889px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;white-space:pre;shape-inside:url(#rect924);fill:#000000;fill-opacity:1;stroke-width:0.264583;"
+       x="114.9967"
+       y="21.922615"
+       id="text835"
+       inkscape:export-xdpi="100"
+       inkscape:export-ydpi="100"
+       transform="translate(0,37.912046)"><tspan
+         x="-15.335766"
+         y="2.0650113"><tspan
+           style="font-size:11.2889px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583">In this example, when did the computer start picking </tspan></tspan><tspan
+         x="44.060497"
+         y="16.176137"><tspan
+           style="font-size:11.2889px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583">apples from a different tree?
+</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       id="text1101"
+       style="line-height:1.25;font-family:Arial;font-size:10.58333333px;-inkscape-font-specification:Arial;white-space:pre;shape-inside:url(#rect1103);" />
+    <text
+       xml:space="preserve"
+       id="text1107"
+       style="line-height:1.25;font-family:Arial;font-size:10.58333333px;-inkscape-font-specification:Arial;white-space:pre;shape-inside:url(#rect1109);" />
+    <g
+       id="g1167"
+       transform="translate(-131.75535,-47.889575)">
+      <text
+         xml:space="preserve"
+         style="font-size:12.3472px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="157.18205"
+         y="163.9059"
+         id="text874"><tspan
+           sodipodi:role="line"
+           id="tspan872"
+           x="157.18205"
+           y="163.9059"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.3472px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583">AFTER 1ST SAMPLE</tspan><tspan
+           sodipodi:role="line"
+           x="157.18205"
+           y="179.3399"
+           style="font-size:12.3472px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           id="tspan876">Press <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;fill-opacity:1"
+   id="tspan4815">[E]</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:12.3472px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+         x="336.07397"
+         y="163.9059"
+         id="text874-5-1"><tspan
+           sodipodi:role="line"
+           id="tspan872-5-8"
+           x="336.07397"
+           y="163.9059"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.3472px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583">AFTER 2ND SAMPLE</tspan><tspan
+           sodipodi:role="line"
+           x="336.07397"
+           y="179.3399"
+           style="font-size:12.3472px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke-width:0.264583"
+           id="tspan876-1-6">Press <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;fill-opacity:1"
+   id="tspan4817">[P]</tspan></tspan></text>
+    </g>
+  </g>
+</svg>

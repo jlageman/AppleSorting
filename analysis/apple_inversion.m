@@ -47,8 +47,8 @@ ALL = false;
 if ~isfield(DCM.MDP,'Hr'), DCM.MDP.Hr = 1/9; end
 if ~isfield(DCM.MDP,'alpha'), DCM.MDP.alpha = 4; end
 if ~isfield(DCM.MDP,'beta' ), DCM.MDP.beta  = 1; end
-if ~isfield(DCM.MDP,'eta' ), DCM.MDP.eta  = 1; end
-if ~isfield(DCM.MDP,'eta_loss' ), DCM.MDP.eta_loss  = 0; end
+if ~isfield(DCM.MDP,'eta_win' ), DCM.MDP.eta_win  = 1; end
+if ~isfield(DCM.MDP,'eta_loss' ), DCM.MDP.eta_loss  = 1; end
 if ~isfield(DCM.MDP,'omega' ), DCM.MDP.omega  = 0; end
 if ~isfield(DCM.MDP,'Cr'), DCM.MDP.Cr = 1; end
 
@@ -80,17 +80,17 @@ for i = 1:length(DCM.field)
         elseif strcmp(field,'Hr')
             pE.(field) = logit(1/9); % in logit-space - bounded between 0 and 1
             pC{i,i}    = prior_variance;
-        elseif strcmp(field,'eta')
+        elseif strcmp(field,'eta_win')
             pE.(field) = logit(0.9); % in logit-space - bounded between 0 and 1
             pC{i,i}    = prior_variance;
         elseif strcmp(field,'eta_loss')
-            pE.(field) = logit(0.1); % in logit-space - bounded between 0 and 1
+            pE.(field) = logit(0.9); % in logit-space - bounded between 0 and 1
             pC{i,i}    = prior_variance;
         elseif strcmp(field,'omega')
-            pE.(field) = logit(0.1); % in logit-space - bounded between 0 and 1
+            pE.(field) = logit(0.5); % in logit-space - bounded between 0 and 1
             pC{i,i}    = prior_variance;
         else
-            pE.(field) = 0;                % if it can take any negative or positive value
+            pE.(field) = 0;  % if it can take any negative or positive value
             pC{i,i}    = prior_variance;
         end
     end
@@ -152,7 +152,7 @@ for i = 1:length(field)
     elseif strcmp(field{i},'Hr')
         mdp.(field{i}) = rev_logit(P.(field{i}));
         params.(field{i}) = rev_logit(P.(field{i}));
-    elseif strcmp(field{i},'eta')
+    elseif strcmp(field{i},'eta_win')
         mdp.(field{i}) = rev_logit(P.(field{i}));
         params.(field{i}) = rev_logit(P.(field{i}));
     elseif strcmp(field{i},'eta_loss')

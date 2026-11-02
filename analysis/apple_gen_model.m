@@ -3,18 +3,20 @@
 % Function for creating MDP model for applesorting task
 % Input:
 % params    = structure, can contain the following:
-%   .Hr        = belief about hazard rate
+%   .Hr        = belief about hazard rate (transition probability)
 %   .alpha     = hyper-prior on precision of action selection  (higher = more precise)
 %   .beta      = hyper-prior on precision of policy selection (higher = less precise)
 %   .Cr        = reward-sensitivity parameter (>0)
-%   .eta       = learning rate for prior beliefs (0-1)
+%   .eta_win   = learning rate for consistent evidence (0-1)
+%   .eta_loss  = learning rate for inconsistent evidence (0-1)
 %   .omega     = forgetting rate for prior beliefs (0-1)
+%   .ob        = outcome likelihood bias (>1 = optimism, <1 = pessimism)
 %   .states    = cell array of true hidden states
 %   .seqllr    = cell array of true LLR sequence
 
 % Output:
 % mdp model containing observation model, transition probs etc
-function mdp = apple_gen_model(params)
+function mdp = apple_gen_model_eta(params)
 
 % set defaults
 %--------------------------------------------------------------------------
@@ -23,10 +25,11 @@ try Hr       = params.Hr;       catch, Hr       = 1/9;  end % initial Hr
 try alpha    = params.alpha;    catch, alpha    = 4;    end % action precision
 try beta     = params.beta;     catch, beta     = 1;    end % policy precision
 try Cr       = params.Cr;       catch, Cr       = 1;    end % outcome sensitivity
-try eta      = params.eta;      catch, eta      = 1;    end % learning rate
-try eta_loss = params.eta_loss; catch, eta_loss = 0;    end % learning rate penalty for disagreeing evidence
-try omega    = params.omega;    catch, omega    = 0;    end % forgetting rate
+try eta_win  = params.eta;      catch, eta_win  = 1;    end % learning rate (consistent)
+try eta_loss = params.eta_loss; catch, eta_loss = 1;    end % learning rate (inconsistent)
+try omega    = params.omega;    catch, omega    = 0.2;  end % forgetting rate
 try condition = params.condition; catch, condition = 0; end % which condition?
+try numBlocks = params.numBlocks; catch, numBlocks = 2; end % how many blocks?
 
 % set up MDP structure
 %--------------------------------------------------------------------------
@@ -112,7 +115,11 @@ for m = 2:5
                        0          0        ];
     end
 end
-
+% a - allow biased beliefs about outcome likelihood
+a{1} = A{1}*1000;
+for m = 2:5
+    a{m} = spm_norm(A{m});
+end
 
 % B - transition matrix
 B{1}(:,:,1) = [1 0;
@@ -151,6 +158,7 @@ mdp.B = B;                    % transition probabilities
 mdp.C = C;                    % preferred states
 mdp.D = D;                    % priors over initial states
 
+mdp.a = a;                    % enable beliefs about likelihood
 mdp.b = b;                    % enable beliefs about transition probability
 mdp.d = d;                    % enable learning priors over initial states
 
@@ -170,12 +178,12 @@ mdp.Hr = Hr;
 mdp.alpha = alpha;
 mdp.beta = beta;
 mdp.Cr = Cr;
-mdp.eta = eta;
+mdp.eta_win = eta_win;
 mdp.eta_loss = eta_loss;
 mdp.omega = omega;
 
 % record number of blocks and trials
-mdp.numBlocks = 2;
+mdp.numBlocks = numBlocks;
 if isfield(params,'states')
     mdp.numTrials = numel(params.states)/mdp.numBlocks;
     mdp.states = params.states;

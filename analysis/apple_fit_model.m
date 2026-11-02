@@ -12,21 +12,23 @@
 %       'alpha'    = hyper-prior on precision of action selection  (higher = more precise)
 %       'beta'     = hyper-prior on precision of policy selection (higher = less precise)
 %       'Cr'       = reward-sensitivity parameter (>0)
-%       'eta'      = likelihood sensitivity parameter (0-1)
-%       'eta_loss' = likelihood sensitivity parameter for disagreeing evidence (0-1)
+%       'eta_win'  = learning rate consistent evidence (0-1)
+%       'eta_loss' = learning rate inconsistent evidence (0-1)
 %       'omega'    = forgetting rate for prior beliefs (0-1)
 %   .outName    = name under which to save results
 %   .use_obs    = use observations from participant data (1) or sample from likelihood function (0)
-%   .sim        = fit using participant actions (1) or simulated actions (0)
+%   .sim        = fit using participant actions (0) or simulated actions (1)
+%   .save_file  = whether to save results file (0 if used for recovery)
+%   .get_LL     = whether to compute LL/AIC/BIC (0 if used for recovery)
 
 % Output:
 % results = structure containing the following fields:
-%   .Hr                 = fitted belief about hazard rate
+%   .Hr                 = fitted belief about transition probability
 %   .alpha              = fitted hyper-prior on precision of action selection  (higher = more precise)
 %   .beta               = fitted hyper-prior on precision of policy selection (higher = less precise)
 %   .Cr                 = fitted reward-sensitivity parameter (>0)
-%   .eta                = fitted likelihood sensitivity parameter (0-1)
-%   .eta_loss           = fitted likelihood sensitivity parameter for disagreeing evidence (0-1)
+%   .eta_win            = fitted learning rate consistent evidence (0-1)
+%   .eta_loss           = fitted learning rate inconsistent evidence (0-1)
 %   .omega              = fitted forgetting rate for prior beliefs (0-1)
 %   .simMDP             = simulated beliefs using fitted parameters
 %   .action_probs       = probability of chosen action (2 x numTrials double)
@@ -43,15 +45,14 @@ function [results] = apple_fit_model(isubj, itask, icond, options)
 % unpack options
 try fields      = options.fields;    catch, fields    = {'alpha', 'beta'};  end
 try outName     = options.outName;   catch, outName   = 'results';          end
-try weiss       = options.weiss;     catch, weiss     = 0;                  end
 try use_obs     = options.use_obs;   catch, use_obs   = 1;                  end
 try sim         = options.sim;       catch, sim       = 0;                  end
 try save_file   = options.save_file; catch, save_file = 1;                  end
-try get_LL      = options.get_ll;    catch, get_LL = 1;                     end
+try get_LL      = options.get_ll;    catch, get_LL    = 1;                  end
 
 % determine fixed parameters
 params = {};
-pnam = {'Hr', 'alpha', 'beta', 'eta', 'eta_loss', 'omega', 'Cr'};
+pnam = {'Hr', 'alpha', 'beta', 'eta_win', 'eta_loss', 'omega', 'Cr'};
 npar = numel(pnam);
 for i = 1:npar
     if isfield(options,pnam{i}) && ~isempty(options.(pnam{i}))
@@ -59,25 +60,26 @@ for i = 1:npar
     end
 end
 
-% load data
+% load data, set params and options
 fname_out = sprintf('data/matlab/dat_sub%d_task%d_cond%d.mat',isubj, itask, icond);
 load(fname_out,'data');
-% set params and options
 params.states = data.seqdir_recode;
 params.seqllr = data.seqllr;
-if isubj < 101 && ~weiss
+responses = data.rbef_recode;
+if isubj < 101
     params.condition = icond;
 end
+
 % define MDP
 MDP = apple_gen_model(params);
 N = MDP.numBlocks * MDP.numTrials;
 [MDP(1:N)] = deal(MDP);
 for i = 1:N
     % true states
-    MDP(i).s = [data.seqdir_recode(i) data.seqdir_recode(i); 0 0];
-    MDP(i).seqllr = data.seqllr(i);
+    MDP(i).s = [params.states(i) params.states(i); 0 0];
+    MDP(i).seqllr = params.seqllr(i);
     % observations
-    if ~sim && use_obs && ~weiss
+    if use_obs
         MDP(i).o = [1 0;
                     9 data.lvl1(i);
                     9 data.lvl2(i);
@@ -92,7 +94,7 @@ for i = 1:N
     end
     % actions
     if ~sim
-        MDP(i).u = [1 ; data.rbef_recode(i)];
+        MDP(i).u = [1 ; responses(i)];
     end
 end
 
@@ -102,16 +104,12 @@ if sim
     MDP  = sim_r_apple_simple(MDP, OPTIONS);
 end
 
-% use given obs/actions or simulated/from data?
-if isfield(options,'U') && isfield(options,'Y')
-    U = options.U;
-    Y = options.Y;
-else
-    U = {MDP.o};
-    Y = {MDP.u};
-end
+% define observations and actions
+U = {MDP.o};
+Y = {MDP.u};
 
-% 2 Invert model and try to recover original parameters
+
+% 2 Invert model and try to recover parameters
 %----------------------------------------------------------------------
 DCM.MDP = apple_gen_model(params);
 DCM.field = fields;               % parameter (field) names to optimise
@@ -148,7 +146,7 @@ for i = 1:length(field)
     elseif strcmp(field{i},'Hr')
         results.(field{i}) = rev_logit(DCM.Ep.(field{i}));
         params.(field{i}) = rev_logit(DCM.Ep.(field{i}));
-    elseif strcmp(field{i},'eta')
+    elseif strcmp(field{i},'eta_win')
         results.(field{i}) = rev_logit(DCM.Ep.(field{i}));
         params.(field{i}) = rev_logit(DCM.Ep.(field{i}));
     elseif strcmp(field{i},'eta_loss')
@@ -162,6 +160,7 @@ for i = 1:length(field)
         params.(field{i}) = exp(DCM.Ep.(field{i}));
     end
 end
+
 
 % 4 Simulate data with fitted parameters
 %--------------------------------------------------------------------------
